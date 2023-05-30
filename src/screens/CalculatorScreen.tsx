@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text} from 'react-native';
 
 import Button, {typeButton} from '../components/Button';
@@ -7,10 +7,16 @@ import Separator from '../components/Separator';
 import {styles} from '../theme/appTheme';
 
 const CalculatorScreen = () => {
+  const [pastResult, setPastResult] = useState('0');
+  const [result, setResult] = useState('0');
+  const [operator, SetOperator] = useState('');
+
   return (
     <View style={styles.calculatorContainer}>
-      <Text style={styles.pastResultText}>0</Text>
-      <Text style={styles.resultText}>1,500</Text>
+      <Text style={styles.pastResultText}>
+        {pastResult} {operator}
+      </Text>
+      <Text style={styles.resultText}>{result}</Text>
 
       <Separator />
 

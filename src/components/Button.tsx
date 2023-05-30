@@ -16,8 +16,20 @@ interface Props {
 
 const Button: FC<Props> = ({text, onPress, type = typeButton.normal}) => {
   return (
-    <TouchableOpacity style={styles.button} onPress={onPress}>
-      <Text style={styles.buttonText}> {text} </Text>
+    <TouchableOpacity
+      disabled={Boolean(!text)}
+      style={[
+        styles.button,
+        type === typeButton.result && styles.resultsButton,
+      ]}
+      onPress={onPress}>
+      <Text
+        style={[
+          styles.buttonText,
+          type === typeButton.orange && styles.orangeText,
+        ]}>
+        {text}
+      </Text>
     </TouchableOpacity>
   );
 };
