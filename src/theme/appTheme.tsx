@@ -11,17 +11,6 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 20,
     justifyContent: 'flex-end',
   },
-  pastResultText: {
-    color: 'white',
-    fontSize: 35,
-    textAlign: 'right',
-    opacity: 0.8,
-  },
-  resultText: {
-    color: 'white',
-    fontSize: 45,
-    textAlign: 'right',
-  },
 
   buttonsRow: {
     flexDirection: 'row',
