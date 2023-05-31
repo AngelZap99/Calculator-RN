@@ -24,13 +24,17 @@ const CalculatorScreen = () => {
     if (result !== '0') {
       setPastResult(result);
       setResult('0');
+      setOperator(operation);
+    } else {
+      setResult('-0');
     }
-    setOperator(operation);
   };
 
   const handleGoBack = () => {
     setResult(result.slice(0, result.length - 1));
     if (result.length - 1 === 0) {
+      setResult('0');
+    } else if (result.length - 1 === 1 && result[0] === '-') {
       setResult('0');
     }
   };
@@ -38,8 +42,8 @@ const CalculatorScreen = () => {
   const handleNumber = (number: string) => {
     if (number === '.' && !result.includes('.')) {
       setResult(value => value + number);
-    } else if (result === '0') {
-      setResult(number);
+    } else if (result === '0' || result === '-0') {
+      result === '0' ? setResult(number) : setResult('-' + number);
     } else if (number !== '.') {
       setResult(value => value + number);
     }
@@ -49,23 +53,23 @@ const CalculatorScreen = () => {
     // setPastResult(result);
     switch (operator) {
       case '%': {
-        setResult(String(Number(result) % Number(pastResult)));
+        setResult(String(Number(pastResult) % Number(result)));
         break;
       }
       case '/': {
-        setResult(String(Number(result) / Number(pastResult)));
+        setResult(String(Number(pastResult) / Number(result)));
         break;
       }
       case 'x': {
-        setResult(String(Number(result) * Number(pastResult)));
+        setResult(String(Number(pastResult) * Number(result)));
         break;
       }
       case '-': {
-        setResult(String(Number(result) - Number(pastResult)));
+        setResult(String(Number(pastResult) - Number(result)));
         break;
       }
       case '+': {
-        setResult(String(Number(result) + Number(pastResult)));
+        setResult(String(Number(pastResult) + Number(result)));
         break;
       }
       default:
