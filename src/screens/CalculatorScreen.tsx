@@ -8,47 +8,157 @@ import {styles} from '../theme/appTheme';
 
 const CalculatorScreen = () => {
   const [pastResult, setPastResult] = useState('0');
-  const [result, setResult] = useState('0');
-  const [operator, SetOperator] = useState('');
+  const [result, setResult] = useState('235234');
+  const [operator, setOperator] = useState('');
+
+  const handleReset = () => {
+    if (result === '0') {
+      setPastResult('0');
+      setOperator('');
+    } else {
+      setResult('0');
+    }
+  };
+
+  const handleOperator = (operation: string) => {
+    if (result !== '0') {
+      setPastResult(result);
+      setResult('0');
+    }
+    setOperator(operation);
+  };
+
+  const handleGoBack = () => {
+    setResult(result.slice(0, result.length - 1));
+    if (result.length - 1 === 0) {
+      setResult('0');
+    }
+  };
+
+  const handleNumber = (number: string) => {
+    if (number === '.' && !result.includes('.')) {
+      setResult(value => value + number);
+    } else if (result === '0') {
+      setResult(number);
+    } else if (number !== '.') {
+      setResult(value => value + number);
+    }
+  };
+
+  const handleResult = () => {
+    // setPastResult(result);
+    switch (operator) {
+      case '%': {
+        setResult(String(Number(result) % Number(pastResult)));
+        break;
+      }
+      case '/': {
+        setResult(String(Number(result) / Number(pastResult)));
+        break;
+      }
+      case 'x': {
+        setResult(String(Number(result) * Number(pastResult)));
+        break;
+      }
+      case '-': {
+        setResult(String(Number(result) - Number(pastResult)));
+        break;
+      }
+      case '+': {
+        setResult(String(Number(result) + Number(pastResult)));
+        break;
+      }
+      default:
+        return;
+    }
+  };
 
   return (
     <View style={styles.calculatorContainer}>
-      <Text style={styles.pastResultText}>
+      <Text
+        style={styles.pastResultText}
+        numberOfLines={1}
+        adjustsFontSizeToFit>
         {pastResult} {operator}
       </Text>
-      <Text style={styles.resultText}>{result}</Text>
+      <Text style={styles.resultText} numberOfLines={1} adjustsFontSizeToFit>
+        {result}
+      </Text>
 
       <Separator />
 
       <View style={styles.buttonsRow}>
-        <Button onPress={() => {}} text="AC" type={typeButton.orange} />
-        <Button onPress={() => {}} text="<-" type={typeButton.orange} />
-        <Button onPress={() => {}} text="%" type={typeButton.orange} />
-        <Button onPress={() => {}} text="/" type={typeButton.orange} />
+        {/* cleaning buttons */}
+        <Button
+          onPress={() => handleReset()}
+          text="AC"
+          type={typeButton.orange}
+        />
+        <Button
+          onPress={() => handleGoBack()}
+          text="<-"
+          type={typeButton.orange}
+        />
+        {/* Operator Button */}
+        <Button
+          onPress={() => handleOperator('%')}
+          text="%"
+          type={typeButton.orange}
+        />
+        <Button
+          onPress={() => handleOperator('/')}
+          text="/"
+          type={typeButton.orange}
+        />
       </View>
       <View style={styles.buttonsRow}>
-        <Button onPress={() => {}} text="7" />
-        <Button onPress={() => {}} text="8" />
-        <Button onPress={() => {}} text="9" />
-        <Button onPress={() => {}} text="x" type={typeButton.orange} />
+        {/* Numeric buttons */}
+        <Button onPress={() => handleNumber('7')} text="7" />
+        <Button onPress={() => handleNumber('8')} text="8" />
+        <Button onPress={() => handleNumber('9')} text="9" />
+        {/* Operator Button */}
+        <Button
+          onPress={() => handleOperator('x')}
+          text="x"
+          type={typeButton.orange}
+        />
       </View>
       <View style={styles.buttonsRow}>
-        <Button onPress={() => {}} text="4" />
-        <Button onPress={() => {}} text="5" />
-        <Button onPress={() => {}} text="6" />
-        <Button onPress={() => {}} text="-" type={typeButton.orange} />
+        {/* Numeric buttons */}
+        <Button onPress={() => handleNumber('4')} text="4" />
+        <Button onPress={() => handleNumber('5')} text="5" />
+        <Button onPress={() => handleNumber('6')} text="6" />
+        {/* Operator Button */}
+        <Button
+          onPress={() => handleOperator('-')}
+          text="-"
+          type={typeButton.orange}
+        />
       </View>
       <View style={styles.buttonsRow}>
-        <Button onPress={() => {}} text="1" />
-        <Button onPress={() => {}} text="2" />
-        <Button onPress={() => {}} text="3" />
-        <Button onPress={() => {}} text="+" type={typeButton.orange} />
+        {/* Numeric buttons */}
+        <Button onPress={() => handleNumber('1')} text="1" />
+        <Button onPress={() => handleNumber('2')} text="2" />
+        <Button onPress={() => handleNumber('3')} text="3" />
+        {/* Operator Button */}
+        <Button
+          onPress={() => handleOperator('+')}
+          text="+"
+          type={typeButton.orange}
+        />
       </View>
       <View style={styles.buttonsRow}>
+        {/* Empty button */}
         <Button onPress={() => {}} text="" />
-        <Button onPress={() => {}} text="0" />
-        <Button onPress={() => {}} text="." />
-        <Button onPress={() => {}} text="=" type={typeButton.result} />
+        {/* Numeric buttons */}
+        <Button onPress={() => handleNumber('0')} text="0" />
+        <Button onPress={() => handleNumber('.')} text="." />
+        {/* Result button */}
+        <Button
+          onPress={() => handleResult()}
+          text="="
+          type={typeButton.result}
+        />
       </View>
     </View>
   );
